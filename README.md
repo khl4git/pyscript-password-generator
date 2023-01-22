@@ -14,3 +14,5 @@ The size limit of the passwords is only determined by the computer memory and pr
 - index.html
 - favicon.ico
 - python-logo.png
+
+Author : skewee.info at gmail.com
