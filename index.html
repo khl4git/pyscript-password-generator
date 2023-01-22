@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+
+<html>
+
+
+    <head>
+ 
+        <title id="HeadTitle" runat="server">Pyscript password generator</title>
+        <meta name="description" content= "Self contained html one page password generator with Python's 'pyscript' and 'secrets' libraries" />
+        <meta name="keywords" content="python, pyscript, secrets, password">
+        <meta name="author" content="Aziz Khlat">
+        <meta name="robots" content= "index, follow" />
+        <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="Sat, 31 Oct 2014 00:00:00 GMT" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+    
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    
+        <link rel="stylesheet" href=https://pyscript.net/latest/pyscript.css />
+        <script defer src=https://pyscript.net/latest/pyscript.js></script>
+        <link rel = 'stylesheet' href = https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css>
+    
+        <style type="text/css">
+            .csslinkmobile {font-size:xx-large;padding-bottom:30px;word-wrap:break-word;overflow-wrap: break-word;}
+            .csshyperlinkmobile {font-size:large;padding-bottom:30px;word-wrap:break-word;overflow-wrap: break-word;}
+            .csshyperlinkmobileconfirmation {font-size:medium;padding-bottom:30px;word-wrap:break-word;overflow-wrap: break-word;color:#ff0000}
+            .csshyperlinkmobileresend {font-size:medium;padding-bottom:30px;word-wrap:break-word;overflow-wrap: break-word;color:#ff0000}
+            .csshyperlinkmobilehello {font-size:large;padding-bottom:30px;word-wrap:break-word;overflow-wrap: break-word;color:cadetblue}
+            .csshyperlink {font-size:x-large;}
+            .csshyperlinkhello {font-size:large;color:cadetblue}
+            .csshyperlinkconfirmation {font-size:medium;color:#ff0000}
+            .csshyperlinkresend {font-size:medium;color:#ff0000}
+            .csslink {font-size:xx-large;}
+        </style>
+    
+    <style>
+    
+     
+    
+        button {
+    
+            /*width:140px;*/
+    
+            cursor:pointer;
+    
+            background-color:#ffffff;
+    
+            color:black;
+    
+            font-weight:bold;
+    
+        }
+    
+        button:hover {
+    
+            background-color:darkcyan;
+    
+            color:#ffffff
+    
+        }
+     
+    
+     
+    
+        #pwdtext
+    
+        {
+    
+            width: 1000px;
+    
+            display: inline;
+    
+            float: left;
+    
+            font-weight: bold;
+    
+            color:royalblue; 
+    
+            display: flex;
+    
+            align-items: stretch;
+    
+    
+    
+        }
+    
+        #option_1
+            {
+                color:darkblue;
+            }
+    
+        #option_2
+            {
+                color:darkgreen;
+            }
+    
+ 
+       
+    
+        .clear
+    
+            {
+        
+                clear: both;
+        
+            }
+    
+    
+        #text {
+    
+            opacity: 0;
+    
+            transition: 1s;
+    
+            }
+    
+    
+        #text.fade-in {
+    
+            opacity: 1;
+    
+            transition: 1s;
+    
+            }
+    
+    </style>
+    
+     
+    
+    </head>
+
+<body style="padding: 2%;">     
+
+<img src="python-logo.png" style='height: auto; width: 5%; object-fit: contain;'/>  
+
+<h2><b>Create secure passwords with Python's  <code id = "code_1">pyscript</code> and <code id = "code_2">secrets</code> libraries</b></h2>
+
+<i>Alphanumeric strings are created with at least 1 lower char, 1 upper char, 1 digit and 1 special character</i>
+ 
+<p></p>
+
+    <div id="display"></div>
+
+    <table width="100%">
+
+        <tr >
+
+            <td >
+
+                <button id="test" type="button" width="100%" py-onClick="create_pwd_by_type()">Create pwd</button><input type="text" id="test-input"  size = "10" value="6"/>          
+
+                <label for="pwdtype">Choose a pwd type:</label>
+
+                <select id="pwdtype" style = "font-weight:bold;">
+
+                  <option value="Alphanumeric">Alphanumeric</option>
+
+                  <option value="Digits">Digits only</option>
+
+                </select> 
+
+                    <button id="clip" type="button" style="visibility:hidden; background-color:darkcyan; color:#ffffff" py-onClick="send2clipboard()">Send to clipboard</button><span id="text" style = "color:#800080">Copied!</span>                              
+
+            </td>           
+
+        </tr>
+
+        <tr>
+
+            <td >
+
+                <span id="python-container"></span>
+
+            </td>
+
+        </tr>
+
+        </table>
+
+        <table>
+
+            <tr>
+                
+
+                <td colspan="3" style="max-width: 1050px;word-wrap: break-word;"><textarea id="pwdtext" readonly="readonly" rows="10" cols="100" Placeholder = "Readonly area"></textarea></td>
+
+
+            </tr>
+
+        </table>
+
+
+        <py-script>  
+             
+            import secrets
+            
+            import string
+            
+            from string import digits, ascii_letters
+            
+            import js
+            
+            from js import document
+            
+            password = ''
+            
+            
+            def generate_pwd(length=8):
+            
+                chars = digits + ascii_letters
+            
+                return ''.join(secrets.choice(chars) for c in range(length))
+            
+            
+            def generate_secure_pwd(length, upper, digits, lower, special):
+            
+                if length < upper + digits + 1:
+            
+                    raise ValueError('Nice try!')
+            
+                while True:
+            
+                    pwd = generate_pwd(length)
+            
+                    if (any(c.islower() for c in pwd)
+            
+                        and sum(c.isupper() for c in pwd) >= upper
+            
+                        and sum(c.isdigit() for c in pwd) >= digits):
+            
+                        i=0
+            
+                        while i in range(special):
+            
+                            pwd += secrets.choice(string.punctuation)
+            
+                            i+=1
+            
+                        return pwd
+            
+            
+            def create_pwd_by_type():
+            
+                ptype = Element('pwdtype').element.value
+            
+                if (ptype == 'Alphanumeric'):
+            
+                    show_pwd()
+            
+                elif (ptype == 'Digits'):
+            
+                   show_digit()
+            
+            def show_pwd():
+            
+                pyscript.write("python-container", "")
+            
+                global password
+            
+                xlen = Element('test-input').element.value
+            
+                if xlen.isdigit():
+            
+                   xlen = int(Element('test-input').element.value)
+            
+                else:
+            
+                   Element('test-input').element.value = "6"
+            
+                   xlen = int(Element('test-input').element.value)
+            
+                if (xlen < 10):
+            
+                   xlen = 10
+            
+                   Element('test-input').element.value = "10"
+            
+                xspecial = int(xlen)//5
+            
+                my_secure_rng = secrets.SystemRandom()
+            
+                rndspecial = my_secure_rng.randrange(1, xspecial)
+            
+                string_characters = "character" if (rndspecial ==1) else "characters"
+                pyscript.write("python-container","password size is : " + str(xlen) + " with " + str(rndspecial) + " special " + string_characters)
+            
+                password = generate_secure_pwd(int(xlen) - int(rndspecial), 1, 2, 2, int(rndspecial))
+            
+                char_list = list(password)
+            
+                secrets.SystemRandom().shuffle(char_list)
+            
+                password = ''.join(char_list)
+            
+                pyscript.write("pwdtext", str(password))
+            
+                document.getElementById('clip').style.visibility = "visible";
+            
+            
+            def show_digit():
+            
+                #js.alert("show_digit()");
+            
+                pyscript.write("python-container", "")
+            
+                xlen = Element('test-input').element.value
+            
+                if xlen.isdigit():
+            
+                   xlen = int(Element('test-input').element.value)
+            
+                else:
+            
+                   Element('test-input').element.value = "6"
+            
+                   xlen = int(Element('test-input').element.value)
+            
+                if (xlen < 1):
+            
+                   xlen = 1
+            
+                   Element('test-input').element.value = "6"
+            
+                OTP = ''
+            
+                digit = string.digits
+            
+                for i in range(xlen):
+            
+                   OTP +=str(''.join(secrets.choice(digit)))
+            
+                pyscript.write("pwdtext", str(OTP))
+            
+                xsize =len(str(Element('pwdtext').element.value))
+               
+                #js.alert(str(xsize));
+            
+                pyscript.write("python-container","number size is : " + str(xsize))
+            
+                document.getElementById('clip').style.visibility = "visible";
+                
+            
+            def send2clipboard():
+            
+                # Copy the text inside the text field
+            
+                js.navigator.clipboard.writeText(password);
+            
+            
+    </py-script>
+
+
+</body>
+
+
+<script>
+
+let button = document.getElementById("clip");
+
+button.addEventListener("click", function () {
+
+  let text = document.getElementById("text");
+
+  text.classList.add("fade-in");
+
+  setTimeout(function () {
+
+    text.classList.remove("fade-in");
+
+  }, 2000); // Set time out to three seconds to account for the second the element fades in
+
+});
+
+</script>
+
+</html>
+
