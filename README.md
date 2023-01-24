@@ -1,7 +1,7 @@
 # pyscript-password-generator
 This is a self contained one page html password generator using Python's 'pyscript' and 'secrets' libraries
 
-Password's types 
+2 kinds of passwords : 
 -Alphanumeric  (minimum length of 10)
 -Digits (minimum lebgth of 6)
 
