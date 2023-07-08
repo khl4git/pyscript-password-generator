@@ -20,9 +20,13 @@
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
     
-	    <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
-        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
+        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+
+        
 		<link rel = 'stylesheet' href = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     
         <style type="text/css">
@@ -152,7 +156,7 @@
 
             <td >
 
-                <button id="test" type="button" width="100%" py-onClick="create_pwd_by_type()">Create pwd</button><input type="text" id="test-input"  size = "10" value="6"/>          
+                <button id="test" type="button" width="100%" py-click="create_pwd_by_type()">Create pwd</button><input type="text" id="test-input"  size = "10" value="6"/>          
 
                 <label for="pwdtype">Choose a pwd type:</label>
 
@@ -164,7 +168,7 @@
 
                 </select> 
 
-                    <button id="clip" type="button" style="visibility:hidden; background-color:steelblue; color:#ffffff" py-onClick="send2clipboard()">Send to clipboard</button><span id="text" style = "color:#800080">Copied!</span>                              
+                    <button id="clip" type="button" style="visibility:hidden; background-color:steelblue; color:#ffffff" py-click="send2clipboard()">Send to clipboard</button><span id="text" style = "color:#800080">Copied!</span>                              
 
             </td>           
 
