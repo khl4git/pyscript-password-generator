@@ -15,4 +15,6 @@ The size is limited only by the computer's memory and CPU power
 - favicon.ico
 - python-logo.png
 
+- Demo : https://skewee.w3spaces.com/
+
 Author : skewee.info at gmail.com
